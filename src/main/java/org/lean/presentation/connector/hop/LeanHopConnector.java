@@ -1,4 +1,4 @@
-package org.lean.presentation.connector.kettle;
+package org.lean.presentation.connector.hop;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.hop.core.HopEnvironment;

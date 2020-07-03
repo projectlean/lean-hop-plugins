@@ -1,5 +1,6 @@
 package org.lean.presentation.util;
 
+import org.lean.core.LeanAttachment;
 import org.lean.core.LeanColorRGB;
 import org.lean.core.LeanColumn;
 import org.lean.core.LeanFont;
@@ -7,9 +8,10 @@ import org.lean.core.LeanHorizontalAlignment;
 import org.lean.core.LeanVerticalAlignment;
 import org.lean.presentation.LeanPresentation;
 import org.lean.presentation.component.LeanComponent;
+import org.lean.presentation.component.pipeline.LeanPipelineComponent;
 import org.lean.presentation.component.types.table.LeanTableComponent;
 import org.lean.presentation.connector.LeanConnector;
-import org.lean.presentation.connector.kettle.LeanHopConnector;
+import org.lean.presentation.connector.hop.LeanHopConnector;
 import org.lean.presentation.layout.LeanLayout;
 import org.lean.presentation.page.LeanPage;
 
@@ -20,6 +22,8 @@ public class TableFromHopPresentationUtil extends BasePresentationUtil {
 
   private static final String COMPONENT_NAME_TABLE = "Table1";
   private static final String CONNECTOR_NAME_HOP = "Hop";
+
+  private static final String COMPONENT_NAME_PIPELINE = "Pipeline1";
 
   public static LeanPresentation createTableFromHopPresentation( int nr ) throws Exception {
 
@@ -74,6 +78,36 @@ public class TableFromHopPresentationUtil extends BasePresentationUtil {
     table1.setSize( null ); // Dynamic imageSize
 
     pageOne.getComponents().add( table1 );
+
+    return presentation;
+  }
+
+  public static LeanPresentation createPipelinePresentation( int nr ) throws Exception {
+
+    LeanPresentation presentation = createBasePresentation(
+      "Pipeline (" + nr + ")",
+      "Pipeline " + nr + " description",
+      100,
+      "Renders a Hop pipeline",
+      true
+    );
+
+    LeanPage pageOne = presentation.getPages().get( 0 );
+
+    String pipelineFilename = "src/test/resources/transformations/read-customer-csv-data.hpl";
+
+    LeanPipelineComponent pc = new LeanPipelineComponent( pipelineFilename );
+    pc.setBorder( false );
+
+    LeanComponent pc1 = new LeanComponent( COMPONENT_NAME_PIPELINE, pc );
+    LeanLayout pcLayout = new LeanLayout();
+    pcLayout.setLeft( new LeanAttachment(0, 0) );
+    pcLayout.setRight( new LeanAttachment(100, 0) );
+    pcLayout.setTop( new LeanAttachment(0, 0) );
+    pcLayout.setBottom( new LeanAttachment(100, 0) );
+    pc1.setLayout( pcLayout );
+
+    pageOne.getComponents().add( pc1 );
 
     return presentation;
   }

@@ -1,5 +1,6 @@
 package org.lean.render.svg;
 
+import org.apache.hop.core.HopEnvironment;
 import org.apache.hop.core.annotations.Transform;
 import org.apache.hop.core.logging.ILoggingObject;
 import org.apache.hop.core.logging.LoggingObject;
@@ -39,8 +40,14 @@ public class LeanPresentationTestBase {
     //
     metadataProvider = new MemoryMetadataProvider();
     LeanEnvironment.init();
+    HopEnvironment.init();
 
-    PluginRegistry.getInstance().registerPluginClass( CsvInputMeta.class.getName(), TransformPluginType.class, Transform.class );
+    PluginRegistry registry = PluginRegistry.getInstance();
+
+    registry.registerPluginClass( CsvInputMeta.class.getName(), TransformPluginType.class, Transform.class );
+
+    assertNotNull( "CSVInput transform not in registry", registry.findPluginWithId( TransformPluginType.class, "CSVInput" )  );
+    assertNotNull( "Dummy transform not in registry", registry.findPluginWithId( TransformPluginType.class, "Dummy" )  );
 
     parent = new LoggingObject( "Presentation unit test" );
 
