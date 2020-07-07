@@ -24,8 +24,7 @@ public class BasePresentationUtil {
     return createBasePresentation( name, description, rowCount, headerMessage, false );
   }
 
-
-  protected static LeanPresentation createBasePresentation( String name, String description, int rowCount, String headerMessage, boolean portrait ) {
+  public static LeanPresentation createBasePresentation( String name, String description, int rowCount, String headerMessage, boolean portrait ) {
     LeanPresentation presentation = new LeanPresentation();
     presentation.setName( name );
     presentation.setDescription( description );

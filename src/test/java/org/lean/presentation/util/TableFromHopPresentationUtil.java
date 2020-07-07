@@ -5,10 +5,12 @@ import org.lean.core.LeanColorRGB;
 import org.lean.core.LeanColumn;
 import org.lean.core.LeanFont;
 import org.lean.core.LeanHorizontalAlignment;
+import org.lean.core.LeanSortMethod;
 import org.lean.core.LeanVerticalAlignment;
 import org.lean.presentation.LeanPresentation;
 import org.lean.presentation.component.LeanComponent;
 import org.lean.presentation.component.pipeline.LeanPipelineComponent;
+import org.lean.presentation.component.types.group.LeanGroupComponent;
 import org.lean.presentation.component.types.table.LeanTableComponent;
 import org.lean.presentation.connector.LeanConnector;
 import org.lean.presentation.connector.hop.LeanHopConnector;
@@ -111,4 +113,6 @@ public class TableFromHopPresentationUtil extends BasePresentationUtil {
 
     return presentation;
   }
+
+
 }

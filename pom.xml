@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>lean-kettle-connector-plugin</artifactId>
+  <artifactId>lean-hop-plugins</artifactId>
   <name>${project.artifactId}</name>
-  <description>A lean connector to read from a Kettle transformation</description>
+  <description>A lean connector to read from a Hop pipeline</description>
   <licenses>
     <license>
       <name>Apache License, version 2.0</name>
@@ -114,7 +114,36 @@
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.hop</groupId>
+      <artifactId>hop-transform-getfilenames</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hop</groupId>
+      <artifactId>hop-transform-randomvalue</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hop</groupId>
+      <artifactId>hop-transform-selectvalues</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hop</groupId>
+      <artifactId>hop-transform-replacestring</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hop</groupId>
+      <artifactId>hop-transform-rowgenerator</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 
@@ -188,18 +217,11 @@
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-core</artifactId>
-        <version>${hop.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>lean</groupId>
         <artifactId>lean-engine</artifactId>
         <version>${lean.version}</version>
         <scope>compile</scope>
       </dependency>
-
 
       <dependency>
         <groupId>junit</groupId>
@@ -211,6 +233,42 @@
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
         <version>1.4.197</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-textfile</artifactId>
+        <version>${hop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-getfilenames</artifactId>
+        <version>${hop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-randomvalue</artifactId>
+        <version>${hop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-selectvalues</artifactId>
+        <version>${hop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-replacestring</artifactId>
+        <version>${hop.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hop</groupId>
+        <artifactId>hop-transform-rowgenerator</artifactId>
+        <version>${hop.version}</version>
         <scope>test</scope>
       </dependency>
     </dependencies>

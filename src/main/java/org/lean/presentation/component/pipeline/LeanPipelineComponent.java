@@ -62,17 +62,17 @@ public class LeanPipelineComponent extends LeanBaseComponent implements ILeanCom
     }
 
     PipelineDetails details = new PipelineDetails();
+    String realFilename = dataContext.getVariableSpace().environmentSubstitute( filename );
     try {
-      details.pipelineMeta = new PipelineMeta( filename, dataContext.getMetadataProvider(), true, dataContext.getVariableSpace() );
+      details.pipelineMeta = new PipelineMeta( realFilename, dataContext.getMetadataProvider(), true, dataContext.getVariableSpace() );
       details.maximum = details.pipelineMeta.getMaximum();
       details.minimum = details.pipelineMeta.getMinimum();
       details.size = new LeanSize( details.maximum.x - details.minimum.x, details.maximum.y - details.minimum.y );
 
       results.addDataSet( component, DATA_PIPELINE_DETAILS, details );
-      Point min = details.pipelineMeta.getMinimum();
 
     } catch ( Exception e ) {
-      throw new LeanException( "Error loading pipeline from filename " + filename, e );
+      throw new LeanException( "Error loading pipeline from filename " + realFilename, e );
     }
   }
 
