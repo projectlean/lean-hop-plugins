@@ -73,7 +73,7 @@ public class LeanHopConnector extends LeanBaseConnector implements ILeanConnecto
       List<IEngineComponent> componentCopies = pipeline.getComponentCopies( realOutputTransformName );
       for ( IEngineComponent componentCopy : componentCopies ) {
         componentCopy.addRowListener( new RowAdapter() {
-          @Override public void rowReadEvent( IRowMeta rowMeta, Object[] row ) throws HopTransformException {
+          @Override public void rowWrittenEvent( IRowMeta rowMeta, Object[] row ) throws HopTransformException {
 
             // Pass the row to all the listeners for this component...
             //

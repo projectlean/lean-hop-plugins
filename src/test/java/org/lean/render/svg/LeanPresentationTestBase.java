@@ -9,6 +9,11 @@ import org.apache.hop.core.plugins.TransformPluginType;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.metadata.serializer.memory.MemoryMetadataProvider;
 import org.apache.hop.pipeline.transforms.csvinput.CsvInputMeta;
+import org.apache.hop.pipeline.transforms.getfilenames.GetFileNamesMeta;
+import org.apache.hop.pipeline.transforms.randomvalue.RandomValueMeta;
+import org.apache.hop.pipeline.transforms.replacestring.ReplaceStringMeta;
+import org.apache.hop.pipeline.transforms.rowgenerator.RowGeneratorMeta;
+import org.apache.hop.pipeline.transforms.selectvalues.SelectValuesMeta;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -45,9 +50,19 @@ public class LeanPresentationTestBase {
     PluginRegistry registry = PluginRegistry.getInstance();
 
     registry.registerPluginClass( CsvInputMeta.class.getName(), TransformPluginType.class, Transform.class );
+    registry.registerPluginClass( SelectValuesMeta.class.getName(), TransformPluginType.class, Transform.class );
+    registry.registerPluginClass( RandomValueMeta.class.getName(), TransformPluginType.class, Transform.class );
+    registry.registerPluginClass( ReplaceStringMeta.class.getName(), TransformPluginType.class, Transform.class );
+    registry.registerPluginClass( GetFileNamesMeta.class.getName(), TransformPluginType.class, Transform.class );
+    registry.registerPluginClass( RowGeneratorMeta.class.getName(), TransformPluginType.class, Transform.class );
 
     assertNotNull( "CSVInput transform not in registry", registry.findPluginWithId( TransformPluginType.class, "CSVInput" )  );
     assertNotNull( "Dummy transform not in registry", registry.findPluginWithId( TransformPluginType.class, "Dummy" )  );
+    assertNotNull( "Select Values transform not in registry", registry.findPluginWithId( TransformPluginType.class, "SelectValues" )  );
+    assertNotNull( "Random Value transform not in registry", registry.findPluginWithId( TransformPluginType.class, "RandomValue" )  );
+    assertNotNull( "Replace in String transform not in registry", registry.findPluginWithId( TransformPluginType.class, "ReplaceString" )  );
+    assertNotNull( "Get File Names transform not in registry", registry.findPluginWithId( TransformPluginType.class, "GetFileNames" )  );
+    assertNotNull( "Generate Rows transform not in registry", registry.findPluginWithId( TransformPluginType.class, "RowGenerator" )  );
 
     parent = new LoggingObject( "Presentation unit test" );
 
