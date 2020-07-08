@@ -209,8 +209,8 @@
     </partitioning>
     <attributes/>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>208</yloc>
+      <xloc>336</xloc>
+      <yloc>192</yloc>
     </GUI>
   </transform>
   <transform>
