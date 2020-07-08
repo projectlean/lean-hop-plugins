@@ -10,7 +10,7 @@ public class LeanPresentationTableFromHopTest extends LeanPresentationTestBase {
   public void testTableRender() throws Exception {
 
     LeanPresentation presentation = TableFromHopPresentationUtil.createTableFromHopPresentation( 2900 );
-    testRendering( presentation, "table_from_kettle");
+    testRendering( presentation, "table_from_hop_pipeline");
   }
 
 }

@@ -7,6 +7,7 @@ import org.lean.presentation.LeanPresentation;
 import org.lean.presentation.component.LeanComponent;
 import org.lean.presentation.component.types.image.LeanImageComponent;
 import org.lean.presentation.component.types.label.LeanLabelComponent;
+import org.lean.presentation.component.types.svg.LeanSvgComponent;
 import org.lean.presentation.connector.LeanConnector;
 import org.lean.presentation.connector.type.ILeanConnector;
 import org.lean.presentation.connector.types.sampledata.LeanSampleDataConnector;
@@ -77,7 +78,7 @@ public class BasePresentationUtil {
   }
 
   protected static LeanComponent createHeaderImageComponent() {
-    LeanImageComponent leanImage = new LeanImageComponent( "lean-logo.png" );
+    LeanSvgComponent leanImage = new LeanSvgComponent( "lean-logo.svg" );
     leanImage.setBorderColor( new LeanColorRGB( 245, 245, 245 ) );
     leanImage.setBorder( false );
     leanImage.setScalePercent( "5" );
