@@ -22,8 +22,8 @@ import org.lean.presentation.datacontext.IDataContext;
 
 import java.util.List;
 
-@LeanConnectorPlugin( id = "LeanHopConnector", name = "Kettle", description = "Read from a Kettle transformation" )
-public class LeanHopConnector extends LeanBaseConnector implements ILeanConnector {
+@LeanConnectorPlugin( id = "LeanPipelineConnector", name = "Kettle", description = "Read from a Kettle transformation" )
+public class LeanPipelineConnector extends LeanBaseConnector implements ILeanConnector {
 
   @HopMetadataProperty
   private String pipelineFilename;
@@ -31,24 +31,24 @@ public class LeanHopConnector extends LeanBaseConnector implements ILeanConnecto
   @HopMetadataProperty
   private String outputTransformName;
 
-  public LeanHopConnector() {
-    super( "LeanHopConnector" );
+  public LeanPipelineConnector() {
+    super( "LeanPipelineConnector" );
   }
 
-  public LeanHopConnector( String pipelineFilename, String outputTransformName ) {
+  public LeanPipelineConnector( String pipelineFilename, String outputTransformName ) {
     this();
     this.pipelineFilename = pipelineFilename;
     this.outputTransformName = outputTransformName;
   }
 
-  public LeanHopConnector( LeanHopConnector c ) {
+  public LeanPipelineConnector( LeanPipelineConnector c ) {
     super( c );
     this.pipelineFilename = c.pipelineFilename;
     this.outputTransformName = c.outputTransformName;
   }
 
   @Override public LeanBaseConnector clone() {
-    return new LeanHopConnector( this );
+    return new LeanPipelineConnector( this );
   }
 
   @JsonIgnore
@@ -77,7 +77,7 @@ public class LeanHopConnector extends LeanBaseConnector implements ILeanConnecto
 
             // Pass the row to all the listeners for this component...
             //
-            for ( ILeanRowListener listener : LeanHopConnector.super.getRowListeners() ) {
+            for ( ILeanRowListener listener : LeanPipelineConnector.super.getRowListeners() ) {
               try {
                 synchronized ( listener ) {
                   listener.rowReceived( rowMeta, row );

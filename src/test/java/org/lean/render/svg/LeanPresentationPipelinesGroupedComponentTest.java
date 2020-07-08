@@ -9,7 +9,7 @@ import org.lean.presentation.component.types.composite.LeanCompositeComponent;
 import org.lean.presentation.component.types.group.LeanGroupComponent;
 import org.lean.presentation.component.types.label.LeanLabelComponent;
 import org.lean.presentation.connector.LeanConnector;
-import org.lean.presentation.connector.hop.LeanHopConnector;
+import org.lean.presentation.connector.hop.LeanPipelineConnector;
 import org.lean.presentation.layout.LeanLayout;
 import org.lean.presentation.page.LeanPage;
 import org.lean.presentation.util.BasePresentationUtil;
@@ -39,7 +39,7 @@ public class LeanPresentationPipelinesGroupedComponentTest extends LeanPresentat
 
     // The list of pipelines comes from the Hop connector running a pipeline itself
     //
-    LeanHopConnector hopConnector = new LeanHopConnector(
+    LeanPipelineConnector hopConnector = new LeanPipelineConnector(
       "src/test/resources/transformations/list-all-pipelines.hpl",
       "OUTPUT"
     );

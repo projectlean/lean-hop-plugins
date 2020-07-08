@@ -5,15 +5,13 @@ import org.lean.core.LeanColorRGB;
 import org.lean.core.LeanColumn;
 import org.lean.core.LeanFont;
 import org.lean.core.LeanHorizontalAlignment;
-import org.lean.core.LeanSortMethod;
 import org.lean.core.LeanVerticalAlignment;
 import org.lean.presentation.LeanPresentation;
 import org.lean.presentation.component.LeanComponent;
 import org.lean.presentation.component.pipeline.LeanPipelineComponent;
-import org.lean.presentation.component.types.group.LeanGroupComponent;
 import org.lean.presentation.component.types.table.LeanTableComponent;
 import org.lean.presentation.connector.LeanConnector;
-import org.lean.presentation.connector.hop.LeanHopConnector;
+import org.lean.presentation.connector.hop.LeanPipelineConnector;
 import org.lean.presentation.layout.LeanLayout;
 import org.lean.presentation.page.LeanPage;
 
@@ -43,8 +41,8 @@ public class TableFromHopPresentationUtil extends BasePresentationUtil {
     //
     String transformationFilename = "src/test/resources/transformations/read-customer-csv-data.hpl";
     String outputStepname = "OUTPUT";
-    LeanHopConnector leanHopConnector = new LeanHopConnector( transformationFilename, outputStepname );
-    LeanConnector kettleConnector = new LeanConnector( CONNECTOR_NAME_HOP, leanHopConnector );
+    LeanPipelineConnector leanPipelineConnector = new LeanPipelineConnector( transformationFilename, outputStepname );
+    LeanConnector kettleConnector = new LeanConnector( CONNECTOR_NAME_HOP, leanPipelineConnector );
     presentation.getConnectors().add(kettleConnector);
 
     // Add the table

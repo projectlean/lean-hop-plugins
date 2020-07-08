@@ -7,6 +7,7 @@ import org.lean.presentation.LeanPresentation;
 import org.lean.presentation.component.LeanComponent;
 import org.lean.presentation.component.types.image.LeanImageComponent;
 import org.lean.presentation.component.types.label.LeanLabelComponent;
+import org.lean.presentation.component.types.svg.LeanSvgComponent;
 import org.lean.presentation.connector.LeanConnector;
 import org.lean.presentation.connector.type.ILeanConnector;
 import org.lean.presentation.connector.types.sampledata.LeanSampleDataConnector;
@@ -62,7 +63,7 @@ public class BasePresentationUtil {
   protected static void addHeaderFooter( LeanPresentation presentation, String headerMessage, boolean portrait ) {
     // Add a header with a logo at the top of the page
     //
-    LeanPage header = LeanPage.getHeaderFooter( portrait, 50 );
+    LeanPage header = LeanPage.getHeaderFooter( -1, portrait, 50 );
     header.getComponents().add( createHeaderImageComponent() );
     header.getComponents().add( createHeaderLabelComponent( headerMessage ) );
     header.getComponents().add( createPresentationNameLabelComponent() );
@@ -70,17 +71,17 @@ public class BasePresentationUtil {
 
     // Add a footer with a single label at the bottom of the page.
     //
-    LeanPage footer = LeanPage.getHeaderFooter( portrait, 25 );
+    LeanPage footer = LeanPage.getHeaderFooter( -2, portrait, 25 );
     footer.getComponents().add( createPageNumberLabelComponent() );
     footer.getComponents().add( createSysdateLabelComponent() );
     presentation.setFooter( footer );
   }
 
   protected static LeanComponent createHeaderImageComponent() {
-    LeanImageComponent leanImage = new LeanImageComponent( "lean-logo.png" );
+    LeanSvgComponent leanImage = new LeanSvgComponent( "lean-logo.svg" );
     leanImage.setBorderColor( new LeanColorRGB( 245, 245, 245 ) );
     leanImage.setBorder( false );
-    leanImage.setScalePercent( "5" );
+    leanImage.setScalePercent( "50" );
     LeanComponent imageComponent = new LeanComponent( "Logo", leanImage );
     imageComponent.setSize( null );
     LeanLayout imageLayout = new LeanLayout();
