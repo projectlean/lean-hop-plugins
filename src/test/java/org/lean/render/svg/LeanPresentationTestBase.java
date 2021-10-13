@@ -23,10 +23,12 @@ import org.lean.presentation.datacontext.IDataContext;
 import org.lean.presentation.datacontext.PresentationDataContext;
 import org.lean.presentation.layout.LeanLayoutResults;
 import org.lean.presentation.layout.LeanRenderPage;
+import org.lean.presentation.variable.LeanParameter;
 import org.lean.render.IRenderContext;
 import org.lean.render.context.SimpleRenderContext;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -82,13 +84,15 @@ public class LeanPresentationTestBase {
   @Ignore
   protected void testRendering( LeanPresentation presentation, String filename ) throws Exception {
     IRenderContext renderContext = new SimpleRenderContext( 500, 500, presentation.getThemes() );
-    IDataContext dataContext = new PresentationDataContext( presentation, metadataProvider );
 
-    LeanLayoutResults results = presentation.doLayout( parent, renderContext, metadataProvider );
+    LeanLayoutResults results = presentation.doLayout( parent, renderContext, metadataProvider, new ArrayList<>() );
     presentation.render( results, metadataProvider );
 
     results.saveSvgPages( folderName, filename, true, true, true );
 
+    if (results.getRenderPages().isEmpty()) {
+      throw new Exception("We didn't get render pages for presentation: "+presentation.getName()+" and filename: "+filename);
+    }
     LeanRenderPage leanRenderPage = results.getRenderPages().get( 0 );
     String xml = leanRenderPage.getSvgXml();
     assertNotNull( xml );

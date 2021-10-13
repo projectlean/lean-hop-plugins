@@ -55,16 +55,16 @@ public class LeanPipelineConnector extends LeanBaseConnector implements ILeanCon
   private transient IPipelineEngine<PipelineMeta> pipeline;
 
   @Override public void startStreaming( IDataContext dataContext ) throws LeanException {
-    IVariables space = dataContext.getVariableSpace();
-    final String realPipelineFilename = space.environmentSubstitute( pipelineFilename );
-    final String realOutputTransformName = space.environmentSubstitute( outputTransformName );
+    IVariables variables = dataContext.getVariables();
+    final String realPipelineFilename = variables.resolve( pipelineFilename );
+    final String realOutputTransformName = variables.resolve( outputTransformName );
 
     try {
       HopEnvironment.init();
 
-      PipelineMeta transMeta = loadPipelineMeta( dataContext );
-
-      pipeline = new LocalPipelineEngine( transMeta );
+      PipelineMeta pipelineMeta = loadPipelineMeta( dataContext );
+      pipeline = new LocalPipelineEngine( pipelineMeta );
+      pipelineMeta.setInternalHopVariables( pipeline );
       pipeline.setLogLevel( LogLevel.BASIC ); // TODO make configurable
       pipeline.prepareExecution();
 
@@ -107,9 +107,9 @@ public class LeanPipelineConnector extends LeanBaseConnector implements ILeanCon
 
   public IRowMeta describeOutput( IDataContext dataContext ) throws LeanException {
 
-    IVariables space = dataContext.getVariableSpace();
-    String realTransFilename = space.environmentSubstitute( pipelineFilename );
-    String realOutputStepname = space.environmentSubstitute( outputTransformName );
+    IVariables variables = dataContext.getVariables();
+    String realTransFilename = variables.resolve( pipelineFilename );
+    String realOutputStepname = variables.resolve( outputTransformName );
 
     PipelineMeta pipelineMeta = loadPipelineMeta( dataContext );
 
@@ -119,7 +119,7 @@ public class LeanPipelineConnector extends LeanBaseConnector implements ILeanCon
     }
 
     try {
-      return pipelineMeta.getTransformFields( outputTransformMeta );
+      return pipelineMeta.getTransformFields( variables, outputTransformMeta );
     } catch ( Exception e ) {
       throw new LeanException( "Error getting output fields for transform '" + realOutputStepname + "' in pipeline '" + realTransFilename, e );
     }
@@ -127,11 +127,11 @@ public class LeanPipelineConnector extends LeanBaseConnector implements ILeanCon
 
   private PipelineMeta loadPipelineMeta( IDataContext dataContext ) throws LeanException {
 
-    IVariables space = dataContext.getVariableSpace();
-    String realPipelineFilename = space.environmentSubstitute( pipelineFilename );
+    IVariables variables = dataContext.getVariables();
+    String realPipelineFilename = variables.resolve( pipelineFilename );
 
     try {
-      PipelineMeta pipelineMeta = new PipelineMeta( realPipelineFilename, dataContext.getMetadataProvider(), true, space );
+      PipelineMeta pipelineMeta = new PipelineMeta( realPipelineFilename, dataContext.getMetadataProvider(), true, variables );
       return pipelineMeta;
     } catch ( Exception e ) {
       throw new LeanException( "Unable to load pipeline file '" + realPipelineFilename + "'", e );

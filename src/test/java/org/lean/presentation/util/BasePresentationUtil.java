@@ -8,10 +8,12 @@ import org.lean.presentation.component.LeanComponent;
 import org.lean.presentation.component.types.image.LeanImageComponent;
 import org.lean.presentation.component.types.label.LeanLabelComponent;
 import org.lean.presentation.component.types.svg.LeanSvgComponent;
+import org.lean.presentation.component.types.svg.ScaleType;
 import org.lean.presentation.connector.LeanConnector;
 import org.lean.presentation.connector.type.ILeanConnector;
 import org.lean.presentation.connector.types.sampledata.LeanSampleDataConnector;
 import org.lean.presentation.layout.LeanLayout;
+import org.lean.presentation.layout.LeanLayoutBuilder;
 import org.lean.presentation.page.LeanPage;
 import org.lean.presentation.theme.LeanDefaultTheme;
 import org.lean.presentation.theme.LeanTheme;
@@ -63,7 +65,7 @@ public class BasePresentationUtil {
   protected static void addHeaderFooter( LeanPresentation presentation, String headerMessage, boolean portrait ) {
     // Add a header with a logo at the top of the page
     //
-    LeanPage header = LeanPage.getHeaderFooter( -1, portrait, 50 );
+    LeanPage header = LeanPage.getHeaderFooter( true, portrait, 50 );
     header.getComponents().add( createHeaderImageComponent() );
     header.getComponents().add( createHeaderLabelComponent( headerMessage ) );
     header.getComponents().add( createPresentationNameLabelComponent() );
@@ -71,24 +73,16 @@ public class BasePresentationUtil {
 
     // Add a footer with a single label at the bottom of the page.
     //
-    LeanPage footer = LeanPage.getHeaderFooter( -2, portrait, 25 );
+    LeanPage footer = LeanPage.getHeaderFooter( false, portrait, 25 );
     footer.getComponents().add( createPageNumberLabelComponent() );
     footer.getComponents().add( createSysdateLabelComponent() );
     presentation.setFooter( footer );
   }
 
   protected static LeanComponent createHeaderImageComponent() {
-    LeanSvgComponent leanImage = new LeanSvgComponent( "lean-logo.svg" );
-    leanImage.setBorderColor( new LeanColorRGB( 245, 245, 245 ) );
-    leanImage.setBorder( false );
-    leanImage.setScalePercent( "50" );
+    LeanSvgComponent leanImage = new LeanSvgComponent( "lean-logo.svg", ScaleType.MIN );
     LeanComponent imageComponent = new LeanComponent( "Logo", leanImage );
-    imageComponent.setSize( null );
-    LeanLayout imageLayout = new LeanLayout();
-    imageLayout.setTop( new LeanAttachment( null, 0, 0, LeanAttachment.Alignment.TOP ) ); // Top of the page
-    imageLayout.setRight( new LeanAttachment( null, 0, 0, LeanAttachment.Alignment.RIGHT ) ); // Right of the page
-    imageComponent.setLayout( imageLayout );
-
+    imageComponent.setLayout( new LeanLayoutBuilder().top().right().bottom().build() );
     return imageComponent;
   }
 
