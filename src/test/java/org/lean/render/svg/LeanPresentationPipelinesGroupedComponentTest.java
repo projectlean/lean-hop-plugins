@@ -17,71 +17,61 @@ import org.lean.presentation.util.BasePresentationUtil;
 import java.util.Arrays;
 
 public class LeanPresentationPipelinesGroupedComponentTest extends LeanPresentationTestBase {
-  
+
   @Test
   public void testPipelinesGroupedComponentRender() throws Exception {
 
-    LeanPresentation presentation = createGroupedPipelinePresentation( 3500 );
-    testRendering( presentation, "hop_pipelines");
+    LeanPresentation presentation = createGroupedPipelinePresentation(3500);
+    testRendering(presentation, "hop_pipelines");
   }
 
-  private LeanPresentation createGroupedPipelinePresentation( int nr ) throws Exception {
+  private LeanPresentation createGroupedPipelinePresentation(int nr) throws Exception {
 
-    LeanPresentation presentation = BasePresentationUtil.createBasePresentation(
-      "Pipelines (" + nr + ")",
-      "Pipelines " + nr + " description",
-      100,
-      "Renders a series of Hop pipelines",
-      true
-    );
+    LeanPresentation presentation =
+        BasePresentationUtil.createBasePresentation(
+            "Pipelines group (" + nr + ")",
+            "Pipelines group " + nr + " description",
+            100,
+            "Renders a series of Hop pipelines",
+            true);
 
-    LeanPage pageOne = presentation.getPages().get( 0 );
+    LeanPage pageOne = presentation.getPages().get(0);
 
     // The list of pipelines comes from the Hop connector running a pipeline itself
     //
-    LeanPipelineConnector hopConnector = new LeanPipelineConnector(
-      "src/test/resources/transformations/list-all-pipelines.hpl",
-      "OUTPUT"
-    );
+    LeanPipelineConnector hopConnector =
+        new LeanPipelineConnector("src/test/resources/pipelines/list-all-pipelines.hpl", "OUTPUT");
     LeanConnector hop = new LeanConnector("Hop", hopConnector);
     presentation.getConnectors().add(hop);
-
 
     // We repeat a composite with a label and a pipeline rendering
     //
     LeanLabelComponent filenameLabelComponent = new LeanLabelComponent();
-    filenameLabelComponent.setLabel( "Filename: ${short_filename}      Name: ${name}" );
-    filenameLabelComponent.setThemeName( "Default" );
+    filenameLabelComponent.setLabel("Filename: ${short_filename}      Name: ${name}");
+    filenameLabelComponent.setThemeName("Default");
     LeanComponent filenameLabel = new LeanComponent("FilenameLabel", filenameLabelComponent);
-    LeanLayout filenameLabelLayout = new LeanLayout();
-    filenameLabelLayout.setLeft(new LeanAttachment(null, 0, 0, LeanAttachment.Alignment.TOP));
-    filenameLabelLayout.setTop(new LeanAttachment(null, 0, 0, LeanAttachment.Alignment.LEFT));
-    filenameLabel.setLayout( filenameLabelLayout );
+    filenameLabel.setLayout(LeanLayout.topLeftPage());
 
     // Below this label is the pipeline
     //
-    LeanPipelineComponent pipelineRenderingComponent = new LeanPipelineComponent( "${filename}" );
+    LeanPipelineComponent pipelineRenderingComponent = new LeanPipelineComponent("${filename}");
     LeanComponent pipelineRendering = new LeanComponent("Pipeline", pipelineRenderingComponent);
-    LeanLayout pipelineRenderingLayout = new LeanLayout();
-    pipelineRenderingLayout.setLeft( new LeanAttachment(null, 0, 0, LeanAttachment.Alignment.TOP) );
-    pipelineRenderingLayout.setTop( new LeanAttachment("FilenameLabel", 0, 0, LeanAttachment.Alignment.BOTTOM) );
-    pipelineRendering.setLayout( pipelineRenderingLayout );
+    pipelineRendering.setLayout(LeanLayout.under( "FilenameLabel", false ));
 
-    LeanCompositeComponent labelPipelineComponent = new LeanCompositeComponent( Arrays.asList(filenameLabel, pipelineRendering));
+    LeanCompositeComponent labelPipelineComponent =
+        new LeanCompositeComponent(Arrays.asList(filenameLabel, pipelineRendering));
     LeanComponent labelPipeline = new LeanComponent("LabelPipeline", labelPipelineComponent);
-    LeanLayout labelPipelineLayout = new LeanLayout();
-    labelPipelineLayout.setLeft( new LeanAttachment(0, 0) );
-    labelPipelineLayout.setRight( new LeanAttachment(100, 0) );
-    labelPipelineLayout.setTop( new LeanAttachment(0, 0) );
-    labelPipeline.setLayout( labelPipelineLayout );
+    labelPipeline.setLayout(LeanLayout.topLeftPage());
 
     // For every output row of that pipeline we render a pipeline
     //
     LeanGroupComponent groupComponent = new LeanGroupComponent();
-    groupComponent.setSourceConnectorName( "Hop" );
-    groupComponent.setGroupComponent( labelPipeline );
+    groupComponent.setSourceConnectorName("Hop");
+    groupComponent.setGroupComponent(labelPipeline);
     LeanComponent group = new LeanComponent("PipelineGroup", groupComponent);
-    group.setLayout( new LeanLayout(new LeanAttachment(0, 0), new LeanAttachment(100, 0), new LeanAttachment(0, 0), null) );
+    group.setLayout(
+        new LeanLayout(
+            new LeanAttachment(0, 0), new LeanAttachment(100, 0), new LeanAttachment(0, 0), null));
 
     pageOne.getComponents().add(group);
 

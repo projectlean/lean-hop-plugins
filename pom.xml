@@ -3,9 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <groupId>lean</groupId>
   <artifactId>lean-hop-plugins</artifactId>
+  <version>0.0.11-SNAPSHOT</version>
   <name>${project.artifactId}</name>
   <description>A lean connector to read from a Hop pipeline</description>
+
   <licenses>
     <license>
       <name>Apache License, version 2.0</name>
@@ -16,11 +19,17 @@
   </licenses>
 
   <properties>
-    <hop.version>0.30-SNAPSHOT</hop.version>
+    <hop.version>1.0.0</hop.version>
     <junit.version>4.4</junit.version>
-    <lean.version>0.0.9-SNAPSHOT</lean.version>
-    <batik.version>1.12</batik.version>
-    <pdfbox.version>2.0.17</pdfbox.version>
+    <lean.version>0.0.11-SNAPSHOT</lean.version>
+    <batik.version>1.14</batik.version>
+    <pdfbox.version>2.0.24</pdfbox.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.build.timestamp.format>yyyy-MM-dd hh.mm.ss</maven.build.timestamp.format>
+    <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
   </properties>
 
   <repositories>
@@ -37,42 +46,130 @@
     </repository>
   </repositories>
 
+  <build>
+    <defaultGoal>install</defaultGoal>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <outputDirectory>target/lean-hop-plugins/</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/lean-hop-plugins/lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+              <excludeScope>test</excludeScope>
+              <excludeScope>system</excludeScope>
+              <excludeScope>runtime</excludeScope>
+              <excludeScope>provided</excludeScope>
+              <excludeArtifactIds>guava,junit</excludeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>1.0.8</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+            <configuration>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.svg</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.svg</include>
+        </includes>
+      </resource>
+    </resources>
+
+  </build>
+
   <dependencies>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-core</artifactId>
       <version>${hop.version}</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-engine</artifactId>
       <version>${hop.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
-      <artifactId>hop-ui-swt</artifactId>
+      <groupId>org.apache.hop</groupId>
+      <artifactId>hop-ui</artifactId>
       <version>${hop.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svg-dom</artifactId>
       <version>${batik.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-svggen</artifactId>
       <version>${batik.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-codec</artifactId>
       <version>${batik.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.xmlgraphics</groupId>
       <artifactId>batik-util</artifactId>
       <version>${batik.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
@@ -102,6 +199,22 @@
     </dependency>
 
     <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.13.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.13.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.13.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
@@ -109,171 +222,60 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-textfile</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-getfilenames</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-randomvalue</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-selectvalues</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-replacestring</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hop</groupId>
+      <groupId>org.apache.hop</groupId>
       <artifactId>hop-transform-rowgenerator</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hop</groupId>
+      <artifactId>hop-transform-writetolog</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hop</groupId>
+      <artifactId>hop-action-pipeline</artifactId>
+      <version>${hop.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hop</groupId>
+      <artifactId>hop-action-mail</artifactId>
       <version>${hop.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
-
-  <build>
-    <defaultGoal>install</defaultGoal>
-
-
-    <sourceDirectory>src/main/java</sourceDirectory>
-
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.xul</include>
-          <include>**/*.xml</include>
-          <include>**/*.svg</include>
-        </includes>
-      </resource>
-
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.xul</include>
-          <include>**/*.xml</include>
-          <include>**/*.svg</include>
-        </includes>
-      </resource>
-
-    </resources>
-
-    <testSourceDirectory>src/test/java</testSourceDirectory>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>src/resources</directory>
-      </testResource>
-    </testResources>
-
-    <plugins>
-
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>install</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/lib</outputDirectory>
-              <excludeScope>provided</excludeScope>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-
-    </plugins>
-  </build>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-core</artifactId>
-        <version>${hop.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>lean</groupId>
-        <artifactId>lean-engine</artifactId>
-        <version>${lean.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <version>1.4.197</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-textfile</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-getfilenames</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-randomvalue</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-selectvalues</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-replacestring</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hop</groupId>
-        <artifactId>hop-transform-rowgenerator</artifactId>
-        <version>${hop.version}</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <groupId>lean</groupId>
-  <version>0.0.9-SNAPSHOT</version>
 </project>
