@@ -2,6 +2,7 @@ package org.lean.presentation.component.pipeline;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.gui.AreaOwner;
+import org.apache.hop.core.gui.DPoint;
 import org.apache.hop.core.gui.Point;
 import org.apache.hop.core.gui.SvgGc;
 import org.apache.hop.core.svg.HopSvgGraphics2D;
@@ -70,7 +71,7 @@ public class LeanPipelineComponent extends LeanBaseComponent implements ILeanCom
     try {
       details.pipelineMeta =
           new PipelineMeta(
-              realFilename, dataContext.getMetadataProvider(), true, dataContext.getVariables());
+              realFilename, dataContext.getMetadataProvider(), dataContext.getVariables());
       details.maximum = details.pipelineMeta.getMaximum();
       details.minimum = details.pipelineMeta.getMinimum();
       details.size =
@@ -150,8 +151,6 @@ public class LeanPipelineComponent extends LeanBaseComponent implements ILeanCom
               null,
               null,
               null,
-              null,
-              null,
               areaOwners,
               32,
               1,
@@ -162,7 +161,7 @@ public class LeanPipelineComponent extends LeanBaseComponent implements ILeanCom
               false,
               new HashMap<>());
       pipelinePainter.setMagnification(1.0f);
-      pipelinePainter.setOffset(new Point(-details.minimum.x, -details.minimum.y));
+      pipelinePainter.setOffset(new DPoint(-details.minimum.x, -details.minimum.y));
       pipelinePainter.drawPipelineImage();
 
       // String pipelineSvgXml = pipelineGc.toXml(); // Not needed
