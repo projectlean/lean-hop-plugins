@@ -131,7 +131,7 @@ public class LeanPipelineConnector extends LeanBaseConnector implements ILeanCon
     String realPipelineFilename = variables.resolve( pipelineFilename );
 
     try {
-      PipelineMeta pipelineMeta = new PipelineMeta( realPipelineFilename, dataContext.getMetadataProvider(), true, variables );
+      PipelineMeta pipelineMeta = new PipelineMeta( realPipelineFilename, dataContext.getMetadataProvider(), variables );
       return pipelineMeta;
     } catch ( Exception e ) {
       throw new LeanException( "Unable to load pipeline file '" + realPipelineFilename + "'", e );

@@ -2,6 +2,7 @@ package org.lean.presentation.component.workflow.pipeline;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.gui.AreaOwner;
+import org.apache.hop.core.gui.DPoint;
 import org.apache.hop.core.gui.Point;
 import org.apache.hop.core.gui.SvgGc;
 import org.apache.hop.core.svg.HopSvgGraphics2D;
@@ -149,7 +150,6 @@ public class LeanWorkflowComponent extends LeanBaseComponent implements ILeanCom
               null,
               null,
               null,
-              null,
               areaOwners,
               32,
               1,
@@ -159,7 +159,7 @@ public class LeanWorkflowComponent extends LeanBaseComponent implements ILeanCom
               1.0d,
               false);
       workflowPainter.setMagnification(1.0f);
-      workflowPainter.setOffset(new Point(-details.minimum.x, -details.minimum.y));
+      workflowPainter.setOffset(new DPoint(-details.minimum.x, -details.minimum.y));
       workflowPainter.drawWorkflow();
 
       gc.embedSvg(

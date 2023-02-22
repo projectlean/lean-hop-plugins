@@ -5,7 +5,7 @@
 
   <groupId>lean</groupId>
   <artifactId>lean-hop-plugins</artifactId>
-  <version>0.0.11-SNAPSHOT</version>
+  <version>0.0.13-SNAPSHOT</version>
   <name>${project.artifactId}</name>
   <description>A lean connector to read from a Hop pipeline</description>
 
@@ -19,15 +19,15 @@
   </licenses>
 
   <properties>
-    <hop.version>1.0.0</hop.version>
+    <hop.version>2.3.0-SNAPSHOT</hop.version>
     <junit.version>4.4</junit.version>
-    <lean.version>0.0.11-SNAPSHOT</lean.version>
-    <batik.version>1.14</batik.version>
-    <pdfbox.version>2.0.24</pdfbox.version>
+    <lean.version>0.0.13-SNAPSHOT</lean.version>
+    <batik.version>1.16</batik.version>
+    <pdfbox.version>2.0.27</pdfbox.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
     <maven.build.timestamp.format>yyyy-MM-dd hh.mm.ss</maven.build.timestamp.format>
     <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
   </properties>
